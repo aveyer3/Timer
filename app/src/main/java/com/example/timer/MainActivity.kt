@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import com.example.timer.util.PrefUtil
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -63,6 +64,31 @@ class MainActivity : AppCompatActivity() {
         else if(timerState == TimerState.Paused){
             //TODO show notification
         }
+
+        PrefUtil.setPreviousTimerLengthSeconds(timerlengthSeconds, this)
+        PrefUtil.setSecondsRemaining(secondsRemaining, this)
+        PrefUtil.setTimerState(timerState, this)
+    }
+
+    private fun initTimer(){
+        timerState = PrefUtil.getTimerState(this)
+
+        if(timerState == TimerState.Stopped)
+            setNewTimerLength()
+        else
+            setPreviousTimerLength()
+
+        secondsRemaining = if(timerState == TimerState.Running || timerState == TimerState.Paused)
+            PrefUtil.getSecondsRemaining(this)
+        else
+            timerlengthSeconds
+
+        //TODO: change seconds remaining according to where the background timer stopped
+
+        //Reumse where left off
+        if (timerState == TimerState.Running)
+            startTimer()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
