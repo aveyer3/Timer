@@ -10,7 +10,7 @@ class PrefUtil {
             return 1
         }
 
-        private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.example.timer.previous_timer_length"
+        private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.example.timer.previous_timer_length_seconds"
 
         fun getPreviousTimerLengthSeconds(context: Context): Long {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -23,7 +23,7 @@ class PrefUtil {
             editor.apply()
         }
 
-        private const val TIMER_STATE_ID = "com.example.timer.time_state"
+        private const val TIMER_STATE_ID = "com.example.timer.timer_state"
 
         fun getTimerState(context: Context): MainActivity.TimerState {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -38,7 +38,7 @@ class PrefUtil {
             editor.apply()
         }
 
-        private const val SECONDS_REMAINING_ID = "com.example.timer.previous_timer_length"
+        private const val SECONDS_REMAINING_ID = "com.example.timer.seconds_remaining"
 
         fun getSecondsRemaining(context: Context): Long {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)

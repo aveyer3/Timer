@@ -2,8 +2,7 @@ package com.example.timer
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
 import com.example.timer.util.PrefUtil
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var timer: CountDownTimer
-    private var timerlengthSeconds = 0L
+    private var timerLengthSeconds = 0L
     private var timerState = TimerState.Stopped
 
     private var secondsRemaining = 0L
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             //TODO show notification
         }
 
-        PrefUtil.setPreviousTimerLengthSeconds(timerlengthSeconds, this)
+        PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
         PrefUtil.setSecondsRemaining(secondsRemaining, this)
         PrefUtil.setTimerState(timerState, this)
     }
@@ -82,11 +81,11 @@ class MainActivity : AppCompatActivity() {
         secondsRemaining = if(timerState == TimerState.Running || timerState == TimerState.Paused)
             PrefUtil.getSecondsRemaining(this)
         else
-            timerlengthSeconds
+            timerLengthSeconds
 
         //TODO: change seconds remaining according to where the background timer stopped
 
-        //Reumse where left off
+        //Resume where left off
         if (timerState == TimerState.Running)
             startTimer()
 
@@ -101,8 +100,8 @@ class MainActivity : AppCompatActivity() {
 
         progress_countdown.progress = 0
 
-        PrefUtil.setSecondsRemaining(timerlengthSeconds, this)
-        secondsRemaining = timerlengthSeconds
+        PrefUtil.setSecondsRemaining(timerLengthSeconds, this)
+        secondsRemaining = timerLengthSeconds
 
         updateButtons()
         updateCountdownUI()
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFinish() = onTimerFinished()
 
             override fun onTick(millisUntilFinished: Long){
-                secondsRemaining = millisUntilFinished / 10000
+                secondsRemaining = millisUntilFinished / 1000
                 updateCountdownUI()
             }
         }.start()
@@ -123,13 +122,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNewTimerLength(){
         val lengthInMinutes = PrefUtil.getTimerLength(this)
-        timerlengthSeconds = (lengthInMinutes * 60L)
-        progress_countdown.max = timerlengthSeconds.toInt()
+        timerLengthSeconds = (lengthInMinutes * 60L)
+        progress_countdown.max = timerLengthSeconds.toInt()
     }
 
     private fun setPreviousTimerLength(){
-        timerlengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
-        progress_countdown.max = timerlengthSeconds.toInt()
+        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
+        progress_countdown.max = timerLengthSeconds.toInt()
     }
 
     private fun updateCountdownUI(){
@@ -137,9 +136,9 @@ class MainActivity : AppCompatActivity() {
         val secondsInMinutesUntilFinished = secondsRemaining - minutesUntilFinished * 60
         val secondsStr = secondsInMinutesUntilFinished.toString()
         textView_countdown.text = "$minutesUntilFinished:${
-        if(secondsStr.length ==2 ) secondsStr
+        if(secondsStr.length == 2 ) secondsStr
         else "0" + secondsStr}"
-        progress_countdown.progress = (timerlengthSeconds - secondsRemaining).toInt()
+        progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
     }
 
     private fun updateButtons(){
@@ -151,7 +150,7 @@ class MainActivity : AppCompatActivity() {
             }
             TimerState.Stopped ->{
                 fab_play.isEnabled = true
-                fab_pause.isEnabled = true
+                fab_pause.isEnabled = false
                 fab_stop.isEnabled = false
             }
             TimerState.Paused ->{
