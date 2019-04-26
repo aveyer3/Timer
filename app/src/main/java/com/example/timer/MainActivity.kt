@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.setIcon(R.drawable.ic_timer)
-        supportActionBar?.title = "   Timer"
+        supportActionBar?.title = "  Timer"
 
         fab_play.setOnClickListener{v ->
             startTimer()
