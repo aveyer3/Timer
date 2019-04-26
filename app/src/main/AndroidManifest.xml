@@ -9,8 +9,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity">
-        </activity>
 
         <receiver
                 android:name=".TimerExpiredReceiver"
@@ -38,6 +36,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".SettingsActivity"
+                  android:label="Settings"
+                  android:parentActivityName=".MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>
