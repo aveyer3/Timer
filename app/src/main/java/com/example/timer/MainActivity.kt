@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import com.example.timer.util.NotificationUtil
 import com.example.timer.util.PrefUtil
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.setIcon(R.drawable.ic_timer)
-        supportActionBar?.title = "      Timer"
+        supportActionBar?.title = "   Timer"
 
         fab_play.setOnClickListener{v ->
             startTimer()
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         initTimer()
         removeAlarm(this)
 
-        //TODO :, hide notification
+        NotificationUtil.hideTimerNotification(this)
     }
 
     override fun onPause() {
@@ -89,10 +90,10 @@ class MainActivity : AppCompatActivity() {
         if(timerState == TimerState.Running){
             timer.cancel()
             val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
-            //TODO: start background timer and show notification
+            NotificationUtil.showTimerRunning(this, wakeUpTime)
         }
         else if(timerState == TimerState.Paused){
-            //TODO show notification
+            NotificationUtil.showTimerPaused(this)
         }
 
         PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
